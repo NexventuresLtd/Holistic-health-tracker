@@ -108,13 +108,13 @@ class OnboardingPage extends StatelessWidget {
           ),
 
           // Spacer to push content down
-          const SizedBox(height: 220),
-          if (!hasConnectionDiagram) const SizedBox(height: 150),
+          const SizedBox(height: 200),
+          if (!hasConnectionDiagram) const SizedBox(height: 200),
 
           // Description section
           Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 1.0),
             child: SizedBox(
               width: screenWidth * 0.85, // Constrain width for better reading
               child: Text(
@@ -134,7 +134,7 @@ class OnboardingPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: SizedBox(
                 width: screenWidth * 0.8,
-                height: 200,
+                height: 100,
                 child: Center(
                   child: Image.asset(
                     'assets/images/connec.png',
@@ -147,7 +147,7 @@ class OnboardingPage extends StatelessWidget {
           // Optional "Get Started" button
           if (hasGetStartedButton)
             Padding(
-              padding: const EdgeInsets.only(bottom: 40.0, top: 20.0),
+              padding: const EdgeInsets.only(bottom: 60.0, top: 20.0),
               child: ElevatedButton(
                 onPressed: onGetStarted,
                 style: ElevatedButton.styleFrom(

@@ -75,9 +75,7 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
         title: const Text(
           'My Progress',
           style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF009F9F)),
+              fontSize: 22, fontWeight: FontWeight.w700, color: primaryGreen),
         ),
         centerTitle: true,
         elevation: 0,
@@ -87,7 +85,7 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
           icon: const Icon(
             Icons.arrow_back_rounded,
             size: 26,
-            color: Color(0xFF009F9F),
+            color: primaryGreen,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -182,7 +180,7 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF009F9F), Color(0xFF009F9F)],
+          colors: [primaryGreen, primaryGreen],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [

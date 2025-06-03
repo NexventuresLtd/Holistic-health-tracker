@@ -205,7 +205,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
               style: TextButton.styleFrom(
                 foregroundColor: primaryGreen,
               ),
-            ), 
+            ),
             // dialogTheme: DialogTheme(backgroundColor: Colors.white),
           ),
           child: child!,
@@ -339,7 +339,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                             ),
                                             child: const Icon(
                                               Icons.health_and_safety,
-                                              color: primaryGreen,
+                                              color: Colors.white,
                                             ),
                                           ),
                                           const SizedBox(width: 12),
@@ -350,7 +350,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                             style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
-                                              color: primaryGreen,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ],
@@ -969,7 +969,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                                           style:
                                                               const TextStyle(
                                                             fontSize: 13,
-                                                            color: primaryGreen,
+                                                            color: Colors.white,
                                                           ),
                                                         ),
                                                       );

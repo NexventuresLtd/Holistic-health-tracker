@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:client/globals.dart';
 
 class TaskReminder extends StatelessWidget {
   const TaskReminder({super.key});
@@ -39,7 +40,8 @@ class TaskReminder extends StatelessWidget {
           );
         }
 
-        final families = List<String>.from(userSnapshot.data!['families'] ?? []);
+        final families =
+            List<String>.from(userSnapshot.data!['families'] ?? []);
         if (families.isEmpty) {
           return Container(
             padding: const EdgeInsets.all(20),
@@ -68,7 +70,7 @@ class TaskReminder extends StatelessWidget {
             }
 
             final tasks = taskSnapshot.data!.docs;
-            
+
             return Container(
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.only(top: 15),
@@ -89,7 +91,8 @@ class TaskReminder extends StatelessWidget {
                       ),
                       Chip(
                         label: Text('${tasks.length} tasks'),
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                       ),
                     ],
                   ),
@@ -110,32 +113,32 @@ class TaskReminder extends StatelessWidget {
   }
 
   BoxDecoration _containerDecoration(context) => BoxDecoration(
-    color: Theme.of(context).colorScheme.surface,
-    borderRadius: BorderRadius.circular(20),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.05),
-        spreadRadius: 2,
-        blurRadius: 10,
-        offset: const Offset(0, 3),
-      ),
-    ],
-  );
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 2,
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      );
 
   Widget _buildEmptyState() => Column(
-    children: [
-      const SizedBox(height: 20),
-      Center(
-        child: Text(
-          'No tasks for today',
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            color: Colors.grey,
+        children: [
+          const SizedBox(height: 20),
+          Center(
+            child: Text(
+              'No tasks for today',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
           ),
-        ),
-      ),
-    ],
-  );
+        ],
+      );
 
   Widget _buildTaskItem(DocumentSnapshot doc) {
     final task = doc.data() as Map<String, dynamic>;
@@ -197,31 +200,31 @@ class TaskReminder extends StatelessWidget {
       case 'overdue':
         return Colors.red;
       default:
-        return const Color(0xFF37B5B6);
+        return primaryGreen;
     }
   }
 
   Widget _buildAddTaskButton(BuildContext context) => SizedBox(
-    width: double.infinity,
-    child: ElevatedButton.icon(
-      onPressed: () => _showAddTaskDialog(context),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF37B5B6),
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+        width: double.infinity,
+        child: ElevatedButton.icon(
+          onPressed: () => _showAddTaskDialog(context),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryGreen,
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          icon: const Icon(Icons.add, color: Colors.white),
+          label: Text(
+            'Add Task',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
-      ),
-      icon: const Icon(Icons.add, color: Colors.white),
-      label: Text(
-        'Add Task',
-        style: GoogleFonts.poppins(
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    ),
-  );
+      );
 
   void _showAddTaskDialog(BuildContext context) {
     Navigator.push(

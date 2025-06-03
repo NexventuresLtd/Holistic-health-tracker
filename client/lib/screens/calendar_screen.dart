@@ -196,13 +196,13 @@ class _CalendarGridState extends State<CalendarGrid> {
             margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: isSelected
-                  ? const Color(0xFF37B5B6)
+                  ? primaryGreen
                   : isToday
                       ? const Color(0xFFE3F9F9)
                       : null,
               borderRadius: BorderRadius.circular(10),
               border: isToday && !isSelected
-                  ? Border.all(color: const Color(0xFF37B5B6))
+                  ? Border.all(color: primaryGreen)
                   : null,
             ),
             child: Column(
@@ -225,8 +225,7 @@ class _CalendarGridState extends State<CalendarGrid> {
                     width: 6,
                     height: 6,
                     decoration: BoxDecoration(
-                      color:
-                          isSelected ? Colors.white : const Color(0xFF37B5B6),
+                      color: isSelected ? Colors.white : primaryGreen,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -324,9 +323,9 @@ class _CalendarGridState extends State<CalendarGrid> {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF37B5B6),
-            ),
-            child: const Text('Update Status'),
+                backgroundColor: primaryGreen, foregroundColor: Colors.white),
+            child: const Text('Update Status',
+                style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -477,7 +476,7 @@ class _CalendarGridState extends State<CalendarGrid> {
     return ElevatedButton.icon(
       onPressed: () => _showAddTaskDialog(context),
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF37B5B6),
+        backgroundColor: primaryGreen,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -582,7 +581,7 @@ class _CalendarGridState extends State<CalendarGrid> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                   RadioListTile(
                     title: const Text('Daily'),
@@ -590,7 +589,7 @@ class _CalendarGridState extends State<CalendarGrid> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                   RadioListTile(
                     title: const Text('Weekly'),
@@ -598,7 +597,7 @@ class _CalendarGridState extends State<CalendarGrid> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                   RadioListTile(
                     title: const Text('Monthly'),
@@ -606,7 +605,7 @@ class _CalendarGridState extends State<CalendarGrid> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                 ],
               ),
@@ -630,9 +629,9 @@ class _CalendarGridState extends State<CalendarGrid> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF37B5B6),
-              ),
-              child: const Text('Save Task'),
+                  backgroundColor: primaryGreen, foregroundColor: Colors.white),
+              child: const Text('Save Task',
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -839,7 +838,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         title: const Text(
           'Calendar',
           style: TextStyle(
-            color: Color(0xFF37B5B6),
+            color: primaryGreen,
             fontSize: 24,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
@@ -884,7 +883,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF37B5B6),
+                        color: primaryGreen,
                       ),
                     ),
                     IconButton(
@@ -927,7 +926,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddTaskDialog(context),
-        backgroundColor: const Color(0xFF37B5B6),
+        backgroundColor: primaryGreen,
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavBar(
@@ -1045,7 +1044,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                   RadioListTile(
                     title: const Text('Daily'),
@@ -1053,7 +1052,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                   RadioListTile(
                     title: const Text('Weekly'),
@@ -1061,7 +1060,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                   RadioListTile(
                     title: const Text('Monthly'),
@@ -1069,7 +1068,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     groupValue: repeatOption,
                     onChanged: (value) =>
                         setState(() => repeatOption = value.toString()),
-                    activeColor: const Color(0xFF37B5B6),
+                    activeColor: primaryGreen,
                   ),
                 ],
               ),
@@ -1094,9 +1093,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF37B5B6),
-              ),
-              child: const Text('Save Task'),
+                  backgroundColor: primaryGreen, foregroundColor: Colors.white),
+              child: const Text('Save Task',
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
