@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/6d96fe51-d566-4fb7-acb1-cacc764af8a4" alt="Nexventures Logo" width="320"/>
-</p>
-
 # **Holistic Health Tracker – Family Wellness Companion**
 
 A Flutter-based mobile app by the **Nexventures Tech Team**, designed to simplify and enhance family healthcare coordination. From medication reminders to emergency alerts, this intuitive solution helps users monitor wellness in real-time using **Firebase**, **FastAPI**, and thoughtful **UI/UX**.
