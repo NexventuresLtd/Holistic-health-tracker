@@ -38,7 +38,7 @@ A Flutter-based mobile app by the **Nexventures Tech Team**, designed to simplif
 
 You can try the app directly:
 
-**➡ [Download Latest APK](https://github.com/NexventuresLtd/Holistic-health-tracker/releases/latest)**  
+**➡ [Download Latest APK](https://drive.google.com/file/d/1EjbrQTtR7qzwmSCSHxa9i80LeDuFR7E_/view?usp=sharing)**  
 *(Go to “Assets” in the release to download the `.apk` file)*
 
 ---
