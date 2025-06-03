@@ -200,7 +200,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
               style: TextButton.styleFrom(
                 foregroundColor: const Color(0xFF2D6D66),
               ),
-            ), dialogTheme: DialogThemeData(backgroundColor: Colors.white),
+            ), dialogTheme: DialogTheme(backgroundColor: Colors.white),
           ),
           child: child!,
         );

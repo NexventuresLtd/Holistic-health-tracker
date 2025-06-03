@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:client/screens/dashboard_screen.dart';
 import 'package:client/globals.dart';
+import 'dart:io';
 
 class RecordScreen extends StatefulWidget {
   const RecordScreen({super.key});
@@ -23,13 +28,17 @@ class _RecordScreenState extends State<RecordScreen> {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final ImagePicker _picker = ImagePicker();
 
   final _formKey = GlobalKey<FormState>();
   final _typeController = TextEditingController();
-  final _urlController = TextEditingController();
   bool _isLoading = false;
+  bool _isUploading = false;
   String? _currentDocId;
   bool _showForm = false;
+  File? _selectedImage;
+  String? _uploadedImageUrl;
 
   @override
   void initState() {
@@ -39,17 +48,204 @@ class _RecordScreenState extends State<RecordScreen> {
   @override
   void dispose() {
     _typeController.dispose();
-    _urlController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      // Show options for camera or gallery
+      final ImageSource? source = await showModalBottomSheet<ImageSource>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          decoration: BoxDecoration(
+            color: cardColor,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Select Image Source',
+                    style: _titleStyle(),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () =>
+                              Navigator.pop(context, ImageSource.camera),
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[300]!),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.camera_alt,
+                                  size: 40,
+                                  color: primaryColor,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Camera',
+                                  style: _contentStyle(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () =>
+                              Navigator.pop(context, ImageSource.gallery),
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[300]!),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.photo_library,
+                                  size: 40,
+                                  color: primaryColor,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Gallery',
+                                  style: _contentStyle(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      'Cancel',
+                      style: _buttonStyle(color: greyColor),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      if (source != null) {
+        final XFile? pickedFile = await _picker.pickImage(
+          source: source,
+          maxWidth: 1920,
+          maxHeight: 1920,
+          imageQuality: 85,
+        );
+
+        if (pickedFile != null) {
+          setState(() {
+            _selectedImage = File(pickedFile.path);
+            _uploadedImageUrl = null; // Clear any existing URL
+          });
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error picking image: ${e.toString()}',
+              style: _contentStyle(color: Colors.white)),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<String?> _uploadImage(File imageFile) async {
+    try {
+      setState(() {
+        _isUploading = true;
+      });
+
+      final User? user = _auth.currentUser;
+      if (user == null) return null;
+
+      // Create a unique filename
+      final String fileName =
+          '${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+      // Create a reference to Firebase Storage
+      final Reference storageRef = _storage
+          .ref()
+          .child('medical_records')
+          .child(user.uid)
+          .child(fileName);
+
+      // Upload the file
+      final UploadTask uploadTask = storageRef.putFile(imageFile);
+
+      // Get the download URL
+      final TaskSnapshot snapshot = await uploadTask;
+      final String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      return downloadUrl;
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error uploading image: ${e.toString()}',
+              style: _contentStyle(color: Colors.white)),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+      return null;
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
   }
 
   Future<void> _addRecord() async {
     if (!_formKey.currentState!.validate()) return;
 
-    if (_urlController.text.isEmpty) {
+    if (_selectedImage == null && _uploadedImageUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Please enter a valid URL',
+          content: Text('Please select an image',
               style: _contentStyle(color: Colors.white)),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
@@ -69,11 +265,25 @@ class _RecordScreenState extends State<RecordScreen> {
       final User? user = _auth.currentUser;
 
       if (user != null) {
+        String? imageBase64;
+
+        // Upload new image if selected
+        if (_selectedImage != null) {
+          final bytes = await _selectedImage!.readAsBytes();
+          imageBase64 = base64Encode(bytes);
+          if (imageBase64 == null) {
+            setState(() {
+              _isLoading = false;
+            });
+            return;
+          }
+        }
+
         // Prepare document data
         final recordData = <String, dynamic>{
           'patientId': user.uid,
           'type': _typeController.text.trim(),
-          'fileUrl': _urlController.text.trim(),
+          'fileUrl': imageBase64,
           'uploadedBy': user.uid,
           'createdAt': FieldValue.serverTimestamp(),
         };
@@ -138,7 +348,8 @@ class _RecordScreenState extends State<RecordScreen> {
   void _resetForm() {
     setState(() {
       _typeController.clear();
-      _urlController.clear();
+      _selectedImage = null;
+      _uploadedImageUrl = null;
       _currentDocId = null;
     });
   }
@@ -150,7 +361,8 @@ class _RecordScreenState extends State<RecordScreen> {
       _showForm = true;
       _currentDocId = doc.id;
       _typeController.text = data['type'] ?? '';
-      _urlController.text = data['fileUrl'] ?? '';
+      _uploadedImageUrl = data['fileUrl'] ?? '';
+      _selectedImage = null; // Clear selected image when editing
     });
 
     // Scroll to the form
@@ -229,14 +441,19 @@ class _RecordScreenState extends State<RecordScreen> {
     );
   }
 
-  Widget _buildImagePreview() {
+  Widget _buildImageSection() {
+    print(_uploadedImageUrl);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'Medical Image',
+          style: _subtitleStyle(),
+        ),
+        const SizedBox(height: 12),
         Container(
-          height: 180,
+          height: 200,
           width: double.infinity,
-          margin: const EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: Colors.grey[100],
@@ -246,93 +463,96 @@ class _RecordScreenState extends State<RecordScreen> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: _urlController.text.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.image_outlined,
-                        size: 48,
-                        color: Colors.grey[500],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'No image URL entered',
-                        style: GoogleFonts.poppins(
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  )
-                : Image.network(
-                    _urlController.text,
+            child: _selectedImage != null
+                ? Image.file(
+                    _selectedImage!,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Column(
+                  )
+                : _uploadedImageUrl != null
+                    ? Image.memory(
+                        base64Decode(_uploadedImageUrl!),
+                        fit: BoxFit.fitHeight,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.broken_image,
+                                size: 48,
+                                color: Colors.grey[500],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Could not load image',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.broken_image,
+                            Icons.add_photo_alternate_outlined,
                             size: 48,
                             color: Colors.grey[500],
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Could not load image',
+                            'No image selected',
                             style: GoogleFonts.poppins(
                               color: Colors.grey[600],
                             ),
                           ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Tap below to add a photo',
+                            style: GoogleFonts.poppins(
+                              color: Colors.grey[500],
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
-                      );
-                    },
-                  ),
+                      ),
           ),
         ),
-        TextFormField(
-          controller: _urlController,
-          decoration: InputDecoration(
-            labelText: 'Image URL',
-            hintText: 'https://example.com/image.jpg',
-            prefixIcon: const Icon(Icons.image),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: greyColor.withOpacity(0.3)),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: primaryColor),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: greyColor.withOpacity(0.3)),
+            onPressed: _isUploading ? null : _pickImage,
+            icon: _isUploading
+                ? SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Icon(
+                    Icons.camera_alt,
+                    color: primaryColor,
+                  ),
+            label: Text(
+              _isUploading
+                  ? 'Uploading...'
+                  : (_selectedImage != null || _uploadedImageUrl != null)
+                      ? 'Change Photo'
+                      : 'Add Photo',
+              style: _buttonStyle(),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: primaryColor, width: 2),
-            ),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           ),
-          style: _contentStyle(),
-          validator: (value) {
-            if (value == null || value.trim().isEmpty) {
-              return 'Please enter a valid image URL';
-            }
-            if (!Uri.tryParse(value)!.hasAbsolutePath) {
-              return 'Please enter a valid URL';
-            }
-            return null;
-          },
         ),
       ],
     );
@@ -532,9 +752,9 @@ class _RecordScreenState extends State<RecordScreen> {
                                       return null;
                                     },
                                   ),
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: 20),
 
-                                  // Image URL input section
+                                  // Image upload section
                                   Container(
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
@@ -545,18 +765,7 @@ class _RecordScreenState extends State<RecordScreen> {
                                         width: 1,
                                       ),
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Medical Image',
-                                          style: _subtitleStyle(),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        _buildImagePreview(),
-                                      ],
-                                    ),
+                                    child: _buildImageSection(),
                                   ),
 
                                   const SizedBox(height: 20),
@@ -573,8 +782,10 @@ class _RecordScreenState extends State<RecordScreen> {
                                         ),
                                         elevation: 0,
                                       ),
-                                      onPressed: _isLoading ? null : _addRecord,
-                                      child: _isLoading
+                                      onPressed: (_isLoading || _isUploading)
+                                          ? null
+                                          : _addRecord,
+                                      child: (_isLoading || _isUploading)
                                           ? const SizedBox(
                                               width: 24,
                                               height: 24,
@@ -766,27 +977,9 @@ class _RecordScreenState extends State<RecordScreen> {
                                             topLeft: Radius.circular(16),
                                             topRight: Radius.circular(16),
                                           ),
-                                          child: Image.network(
-                                            fileUrl,
-                                            fit: BoxFit.cover,
-                                            loadingBuilder: (context, child,
-                                                loadingProgress) {
-                                              if (loadingProgress == null)
-                                                return child;
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  value: loadingProgress
-                                                              .expectedTotalBytes !=
-                                                          null
-                                                      ? loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          loadingProgress
-                                                              .expectedTotalBytes!
-                                                      : null,
-                                                ),
-                                              );
-                                            },
+                                          child: Image.memory(
+                                            base64Decode(fileUrl),
+                                            fit: BoxFit.fitHeight,
                                             errorBuilder:
                                                 (context, error, stackTrace) {
                                               return Column(
@@ -900,9 +1093,9 @@ class _RecordScreenState extends State<RecordScreen> {
                                                             panEnabled: true,
                                                             minScale: 0.5,
                                                             maxScale: 4,
-                                                            child:
-                                                                Image.network(
-                                                              fileUrl!,
+                                                            child: Image.memory(
+                                                              base64Decode(
+                                                                  fileUrl!),
                                                               fit: BoxFit
                                                                   .contain,
                                                             ),
