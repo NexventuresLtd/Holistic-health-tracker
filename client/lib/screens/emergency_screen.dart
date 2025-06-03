@@ -10,18 +10,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../providers/state_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
-
+import 'package:client/globals.dart';
 class EmergencyScreen extends StatelessWidget {
   const EmergencyScreen({super.key});
 
   // Function to log emergency alert to Firestore
-  Future<void> _logEmergencyAlert(BuildContext context, String userId, String userName) async {
+  Future<void> _logEmergencyAlert(
+      BuildContext context, String userId, String userName) async {
     try {
       // Generate a unique ID for the alert
       final String alertId = const Uuid().v4();
 
       // Get reference to emergencyAlerts collection
-      final alertsCollection = FirebaseFirestore.instance.collection('emergencyAlerts');
+      final alertsCollection =
+          FirebaseFirestore.instance.collection('emergencyAlerts');
 
       // Create the document with the alert information
       await alertsCollection.doc(alertId).set({
@@ -83,7 +85,7 @@ class EmergencyScreen extends StatelessWidget {
                             child: IconButton(
                               icon: const Icon(
                                 Icons.arrow_back,
-                                color: Color(0xFF2D6D66),
+                                color: primaryGreen,
                                 size: 28,
                               ),
                               onPressed: () {
@@ -97,7 +99,8 @@ class EmergencyScreen extends StatelessWidget {
                         BlocBuilder<AppCubit, AppState>(
                           builder: (context, state) {
                             // Access the user info from the AppCubit state
-                            final userInfo = state is AppAuthenticated ? state.user : null;
+                            final userInfo =
+                                state is AppAuthenticated ? state.user : null;
 
                             return Column(
                               children: [
@@ -105,7 +108,8 @@ class EmergencyScreen extends StatelessWidget {
                                   // User name section
                                   const SizedBox(height: 10),
                                   Text(
-                                    userInfo.name ?? 'User Name', // Fallback if name is null
+                                    userInfo.name ??
+                                        'User Name', // Fallback if name is null
                                     style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
@@ -153,14 +157,16 @@ class EmergencyScreen extends StatelessWidget {
                         // Emergency Button
                         BlocBuilder<AppCubit, AppState>(
                           builder: (context, state) {
-                            final userInfo = state is AppAuthenticated ? state.user : null;
+                            final userInfo =
+                                state is AppAuthenticated ? state.user : null;
                             final userId = userInfo?.id ?? 'unknown_user';
                             final userName = userInfo?.name ?? 'Unknown User';
 
                             return GestureDetector(
                               onTap: () async {
                                 // Log emergency alert to Firestore
-                                await _logEmergencyAlert(context, userId, userName);
+                                await _logEmergencyAlert(
+                                    context, userId, userName);
 
                                 // Then try to make the emergency call
                                 const emergencyNumber = 'tel:112';
@@ -181,7 +187,8 @@ class EmergencyScreen extends StatelessWidget {
                                               Navigator.of(context).pop();
                                             },
                                             style: TextButton.styleFrom(
-                                              backgroundColor: const Color(0xFF499F97),
+                                              backgroundColor:
+                                                  const Color(0xFF499F97),
                                               foregroundColor: Colors.white,
                                             ),
                                             child: const Text("Close"),
@@ -200,7 +207,8 @@ class EmergencyScreen extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFFF15D6D).withOpacity(0.3),
+                                      color: const Color(0xFFF15D6D)
+                                          .withOpacity(0.3),
                                       blurRadius: 20,
                                       spreadRadius: 10,
                                     ),
@@ -225,7 +233,8 @@ class EmergencyScreen extends StatelessWidget {
                         // Ambulance Card
                         Container(
                           margin: const EdgeInsets.only(bottom: 20),
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 16),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30),
@@ -267,7 +276,8 @@ class EmergencyScreen extends StatelessWidget {
                         // Emergency Status Card - Shows recent alerts
                         BlocBuilder<AppCubit, AppState>(
                           builder: (context, state) {
-                            final userInfo = state is AppAuthenticated ? state.user : null;
+                            final userInfo =
+                                state is AppAuthenticated ? state.user : null;
                             final userId = userInfo?.id;
 
                             if (userId != null) {
@@ -279,14 +289,19 @@ class EmergencyScreen extends StatelessWidget {
                                     .limit(1)
                                     .snapshots(),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     return const CircularProgressIndicator();
                                   }
 
-                                  if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                                    final alertData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
-                                    final status = alertData['status'] ?? 'unknown';
-                                    final timestamp = alertData['timestamp'] as Timestamp?;
+                                  if (snapshot.hasData &&
+                                      snapshot.data!.docs.isNotEmpty) {
+                                    final alertData = snapshot.data!.docs.first
+                                        .data() as Map<String, dynamic>;
+                                    final status =
+                                        alertData['status'] ?? 'unknown';
+                                    final timestamp =
+                                        alertData['timestamp'] as Timestamp?;
                                     final formattedTime = timestamp != null
                                         ? '${timestamp.toDate().hour}:${timestamp.toDate().minute}'
                                         : 'Recently';
@@ -306,7 +321,8 @@ class EmergencyScreen extends StatelessWidget {
                                         ],
                                       ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Text(
                                             "Recent Emergency Alert",
@@ -317,13 +333,16 @@ class EmergencyScreen extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 8),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 "Status: $status",
                                                 style: TextStyle(
                                                   fontSize: 14,
-                                                  color: status == 'active' ? Colors.red : Colors.green,
+                                                  color: status == 'active'
+                                                      ? Colors.red
+                                                      : Colors.green,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
@@ -341,7 +360,8 @@ class EmergencyScreen extends StatelessWidget {
                                     );
                                   }
 
-                                  return const SizedBox.shrink(); // No previous alerts
+                                  return const SizedBox
+                                      .shrink(); // No previous alerts
                                 },
                               );
                             }

@@ -1,6 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:client/globals.dart';
+
 class Splash1curve extends StatefulWidget {
   const Splash1curve({super.key});
 
@@ -23,12 +24,11 @@ class _Splash1curveState extends State<Splash1curve> {
               // Background curved container
               Positioned(
                 width: 700,
-                height:550,
+                height: 550,
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   decoration: const BoxDecoration(
-                    color:
-                        primaryGreen, // Teal green color
+                    color: primaryGreen, // Teal green color
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(800),
                       bottomRight: Radius.circular(800),
@@ -38,7 +38,7 @@ class _Splash1curveState extends State<Splash1curve> {
               ),
               // Centered image
               Image.asset(
-                'assets/logos/trans.png',
+                'assets/images/main.png',
               ),
             ],
           ),
@@ -57,20 +57,20 @@ class _Splash1curveState extends State<Splash1curve> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'FAM',
+                          'HOLISTIC',
                           style: TextStyle(
                             fontSize: 34,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF00A78E),
+                            color: primaryGreen,
                           ),
                         ),
                         SizedBox(width: 5),
                         Text(
-                          'CARE',
+                          ' TRACKER',
                           style: TextStyle(
                             fontSize: 34,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF5AB4F1),
+                            color: secondaryGreen,
                           ),
                         ),
                       ],
@@ -81,7 +81,7 @@ class _Splash1curveState extends State<Splash1curve> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: Color(0xFF00A78E),
+                        color: primaryGreen,
                       ),
                     ),
                   ],
@@ -93,7 +93,7 @@ class _Splash1curveState extends State<Splash1curve> {
           //loading indicator
           const Center(
             child: CircularProgressIndicator(
-              color: Color.fromARGB(255, 12, 172, 132),
+              color: primaryGreen,
             ),
           ),
         ],

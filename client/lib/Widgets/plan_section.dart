@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:client/globals.dart';
 
 class PlanSection extends StatefulWidget {
   const PlanSection({super.key});
@@ -41,13 +42,15 @@ class _PlanSectionState extends State<PlanSection> {
       if (_currentUserId == null) return;
 
       // Get pending medications
-      final pendingQuery = await _firestore.collection('medications')
+      final pendingQuery = await _firestore
+          .collection('medications')
           .where('patientId', isEqualTo: _currentUserId)
           .where('status', isEqualTo: 'pending')
           .get();
 
       // Get completed medications count
-      final completedQuery = await _firestore.collection('medications')
+      final completedQuery = await _firestore
+          .collection('medications')
           .where('patientId', isEqualTo: _currentUserId)
           .where('status', isEqualTo: 'completed')
           .get();
@@ -94,7 +97,8 @@ class _PlanSectionState extends State<PlanSection> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to mark as completed: ${e.toString()}')),
+          SnackBar(
+              content: Text('Failed to mark as completed: ${e.toString()}')),
         );
       }
     }
@@ -131,7 +135,7 @@ class _PlanSectionState extends State<PlanSection> {
                 'Your plan today',
                 style: TextStyle(
                   fontSize: 18,
-                  color: Colors.teal.shade700,
+                  color: primaryGreen,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -152,19 +156,19 @@ class _PlanSectionState extends State<PlanSection> {
                 height: 120,
                 child: _pendingMeds.isEmpty
                     ? const Center(
-                  child: Text(
-                    'No pending medications found',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                )
+                        child: Text(
+                          'No pending medications found',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      )
                     : PageView.builder(
-                  controller: _pageController,
-                  itemCount: _pendingMeds.length,
-                  itemBuilder: (context, index) {
-                    final med = _pendingMeds[index];
-                    return _buildMedicationCard(med);
-                  },
-                ),
+                        controller: _pageController,
+                        itemCount: _pendingMeds.length,
+                        itemBuilder: (context, index) {
+                          final med = _pendingMeds[index];
+                          return _buildMedicationCard(med);
+                        },
+                      ),
               ),
             ],
           ),

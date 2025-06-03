@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:client/globals.dart';
 
 class UserProgressScreen extends StatefulWidget {
   const UserProgressScreen({super.key});
@@ -29,14 +30,16 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
 
     try {
       // Count completed medications
-      final medQuery = _firestore.collection('medications')
+      final medQuery = _firestore
+          .collection('medications')
           .where('status', isEqualTo: 'completed')
           .where('assignedTo', isEqualTo: userId);
       final medSnapshot = await medQuery.get();
       _completedMedications = medSnapshot.docs.length;
 
       // Count completed tasks
-      final taskQuery = _firestore.collection('tasks')
+      final taskQuery = _firestore
+          .collection('tasks')
           .where('status', isEqualTo: 'completed')
           .where('assignedTo', isEqualTo: userId);
       final taskSnapshot = await taskQuery.get();
@@ -81,81 +84,94 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black87,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, size: 26,color: Color(0xFF009F9F),),
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            size: 26,
+            color: Color(0xFF009F9F),
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : userId == null
-          ? const Center(child: Text('Please sign in to view progress'))
-          : StreamBuilder<DocumentSnapshot>(
-        stream: _firestore.collection('userProgress').doc(userId).snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+              ? const Center(child: Text('Please sign in to view progress'))
+              : StreamBuilder<DocumentSnapshot>(
+                  stream: _firestore
+                      .collection('userProgress')
+                      .doc(userId)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-          final progressData = snapshot.data!.data() as Map<String, dynamic>? ?? {};
-          final points = progressData['points'] ?? 0;
-          final badges = List<String>.from(progressData['badges'] ?? []);
-          final streaks = progressData['streaks'] as Map<String, dynamic>? ?? {};
-          final completedMeds = progressData['completedMedications'] ?? 0;
-          final completedTasks = progressData['completedTasks'] ?? 0;
+                    final progressData =
+                        snapshot.data!.data() as Map<String, dynamic>? ?? {};
+                    final points = progressData['points'] ?? 0;
+                    final badges =
+                        List<String>.from(progressData['badges'] ?? []);
+                    final streaks =
+                        progressData['streaks'] as Map<String, dynamic>? ?? {};
+                    final completedMeds =
+                        progressData['completedMedications'] ?? 0;
+                    final completedTasks = progressData['completedTasks'] ?? 0;
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildPointsCard(points),
-                const SizedBox(height: 28),
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildPointsCard(points),
+                          const SizedBox(height: 28),
 
-                // Completion counters
-                _buildCompletionSection(completedMeds, completedTasks),
-                const SizedBox(height: 28),
+                          // Completion counters
+                          _buildCompletionSection(
+                              completedMeds, completedTasks),
+                          const SizedBox(height: 28),
 
-                // Streaks section
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    'Current Streaks',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black87,
-                      letterSpacing: -0.3,
-                    ),
-                  ),
+                          // Streaks section
+                          const Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              'Current Streaks',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black87,
+                                letterSpacing: -0.3,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildStreaksSection(streaks),
+                          const SizedBox(height: 28),
+
+                          // Badges section
+                          const Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              'Earned Badges',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black87,
+                                letterSpacing: -0.3,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildBadgesGrid(badges),
+
+                          // Tips section
+                          const SizedBox(height: 32),
+                          _buildProgressTips(),
+                        ],
+                      ),
+                    );
+                  },
                 ),
-                const SizedBox(height: 16),
-                _buildStreaksSection(streaks),
-                const SizedBox(height: 28),
-
-                // Badges section
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    'Earned Badges',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black87,
-                      letterSpacing: -0.3,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _buildBadgesGrid(badges),
-
-                // Tips section
-                const SizedBox(height: 32),
-                _buildProgressTips(),
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 
@@ -229,7 +245,7 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
             title: 'Medications Taken',
             count: meds,
             icon: Icons.medical_services_outlined,
-            color: const Color(0xFF3F8585),
+            color: primaryGreen,
           ),
         ),
         const SizedBox(width: 16),
@@ -306,7 +322,7 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
             title: 'Medication',
             count: streaks['medication'] ?? 0,
             icon: Icons.medical_services_outlined,
-            color: const Color(0xFF3F8585),
+            color: primaryGreen,
           ),
         ),
         const SizedBox(width: 16),
@@ -436,7 +452,7 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
       'medication_streak_7': {
         'title': '7-Day Streak',
         'icon': Icons.medical_services,
-        'gradient': [const Color(0xFF3F8585), const Color(0xFF4CA1A3)],
+        'gradient': [primaryGreen, const Color(0xFF4CA1A3)],
       },
       'task_master': {
         'title': 'Task Master',
@@ -445,11 +461,12 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
       },
     };
 
-    final badgeData = badgeTypes[badge] ?? {
-      'title': badge.replaceAll('_', ' ').capitalize(),
-      'icon': Icons.star,
-      'gradient': [const Color(0xFFFFA726), const Color(0xFFFFCA28)],
-    };
+    final badgeData = badgeTypes[badge] ??
+        {
+          'title': badge.replaceAll('_', ' ').capitalize(),
+          'icon': Icons.star,
+          'gradient': [const Color(0xFFFFA726), const Color(0xFFFFCA28)],
+        };
 
     final icon = badgeData['icon'] as IconData;
     final gradient = badgeData['gradient'] as List<Color>;
@@ -528,9 +545,11 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          _buildTipItem('Complete daily medication', 10, Icons.medical_services),
+          _buildTipItem(
+              'Complete daily medication', 10, Icons.medical_services),
           _buildTipItem('Finish tasks on time', 5, Icons.task),
-          _buildTipItem('Maintain 7-day streak', 50, Icons.local_fire_department),
+          _buildTipItem(
+              'Maintain 7-day streak', 50, Icons.local_fire_department),
           _buildTipItem('Earn new badges', 25, Icons.emoji_events),
         ],
       ),
@@ -546,13 +565,13 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: const Color(0xFF3F8585).withOpacity(0.1),
+              color: primaryGreen.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               icon,
               size: 18,
-              color: const Color(0xFF3F8585),
+              color: primaryGreen,
             ),
           ),
           const SizedBox(width: 16),
@@ -569,7 +588,7 @@ class _UserProgressScreenState extends State<UserProgressScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFF3F8585).withOpacity(0.1),
+              color: primaryGreen.withOpacity(0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(

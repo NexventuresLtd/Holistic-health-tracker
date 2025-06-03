@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../screens/calendar_screen.dart';
-import '../screens/emergency_screen.dart';  // Add this import
+import '../screens/emergency_screen.dart'; // Add this import
 import '../screens/userProgress.dart';
 import '../screens/health_log.dart';
+import 'package:client/globals.dart';
+
 class ServicesSection extends StatelessWidget {
   const ServicesSection({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,42 +28,45 @@ class ServicesSection extends StatelessWidget {
           children: [
             _buildServiceItem(
               FontAwesomeIcons.fileMedical,
-              const Color(0xFF009F9F),
+              primaryGreen,
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HealthLogTrackerScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const HealthLogTrackerScreen()),
                 );
               },
             ),
             _buildServiceItem(
               FontAwesomeIcons.calendarCheck,
-              Colors.teal,
+              const Color.fromARGB(255, 150, 0, 0),
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CalendarScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const CalendarScreen()),
                 );
               },
             ),
             _buildServiceItem(
               FontAwesomeIcons.gamepad,
-              const Color(0xFF277DA1),
+              const Color.fromARGB(255, 161, 39, 39),
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>   UserProgressScreen()),
+                  MaterialPageRoute(builder: (context) => UserProgressScreen()),
                 );
               },
             ),
             _buildServiceItem(
               FontAwesomeIcons.ambulance,
-              const Color.fromARGB(255, 235, 71, 76),
+              const Color.fromARGB(255, 204, 29, 29),
               () {
                 // Navigate to the emergency screen when ambulance icon is clicked
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const EmergencyScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const EmergencyScreen()),
                 );
               },
             ),
@@ -70,7 +75,7 @@ class ServicesSection extends StatelessWidget {
       ],
     );
   }
-  
+
   Widget _buildServiceItem(IconData icon, Color bgColor, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,

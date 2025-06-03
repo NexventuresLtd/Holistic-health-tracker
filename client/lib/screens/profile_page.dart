@@ -100,7 +100,8 @@ class _FamilyListItem extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        leading: Icon(Icons.family_restroom, color: Theme.of(context).colorScheme.primary),
+        leading: Icon(Icons.family_restroom,
+            color: Theme.of(context).colorScheme.primary),
         title: Text(familyName),
         subtitle: Text(
           'ID: $familyId',
@@ -184,7 +185,8 @@ class ProfilePage extends StatelessWidget {
       required VoidCallback onPressed}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
+        backgroundColor:
+            Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.1),
         foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
         elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -241,7 +243,8 @@ class ProfilePage extends StatelessWidget {
                   ),
                   filled: true,
                   fillColor: Colors.grey[50],
-                  prefixIcon: Icon(Icons.family_restroom, color: Theme.of(context).colorScheme.primary),
+                  prefixIcon: Icon(Icons.family_restroom,
+                      color: Theme.of(context).colorScheme.primary),
                 ),
               ),
               const SizedBox(height: 24),
@@ -256,7 +259,8 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(width: 12),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+                      backgroundColor:
+                          Theme.of(context).textTheme.bodyMedium!.color,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                     ),
@@ -292,7 +296,8 @@ class ProfilePage extends StatelessWidget {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            backgroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+                            backgroundColor:
+                                Theme.of(context).textTheme.bodyMedium!.color,
                             content: const Text('Family created successfully!'),
                             duration: const Duration(seconds: 2),
                           ),
@@ -367,7 +372,8 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(width: 12),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+                      backgroundColor:
+                          Theme.of(context).textTheme.bodyMedium!.color,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                     ),
@@ -411,7 +417,8 @@ class ProfilePage extends StatelessWidget {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            backgroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+                            backgroundColor:
+                                Theme.of(context).textTheme.bodyMedium!.color,
                             content: const Text('Joined family successfully!'),
                             duration: const Duration(seconds: 2),
                           ),
@@ -527,7 +534,7 @@ class ProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Image(
-                          image: AssetImage("assets/logos/trans.png"),
+                          image: AssetImage("assets/images/main.png"),
                           width: 120,
                         ),
                         Expanded(
@@ -548,14 +555,20 @@ class ProfilePage extends StatelessWidget {
                                   joinDate,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    color: Theme.of(context).textTheme.titleSmall!.color,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .color,
                                   ),
                                 ),
                                 Text(
                                   phone,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    color: Theme.of(context).textTheme.titleSmall!.color,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .color,
                                   ),
                                 ),
                               ],
@@ -592,7 +605,10 @@ class ProfilePage extends StatelessWidget {
                             Text(
                               "Family Management",
                               style: TextStyle(
-                                color: Theme.of(context).textTheme.titleSmall!.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .color,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -602,7 +618,8 @@ class ProfilePage extends StatelessWidget {
                           onPressed: () => _handleFamilyManagement(context),
                           icon: Icon(
                             Icons.chevron_right_rounded,
-                            color: Theme.of(context).textTheme.bodyMedium!.color,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium!.color,
                           ),
                         ),
                       ],
@@ -700,7 +717,8 @@ class ProfilePage extends StatelessWidget {
                           Text(
                             "Reset Password",
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.titleSmall!.color,
+                              color:
+                                  Theme.of(context).textTheme.titleSmall!.color,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -739,7 +757,8 @@ class ProfilePage extends StatelessWidget {
                           Text(
                             "Log Out",
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.titleSmall!.color,
+                              color:
+                                  Theme.of(context).textTheme.titleSmall!.color,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

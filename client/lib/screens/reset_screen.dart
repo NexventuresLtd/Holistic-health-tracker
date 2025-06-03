@@ -116,7 +116,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                     top: 30,
                     child: Center(
                       child: Image.asset(
-                        'assets/logos/trans.png',
+                        'assets/images/main.png',
                         width: 200,
                       ),
                     ),

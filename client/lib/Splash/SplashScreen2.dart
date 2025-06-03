@@ -21,7 +21,7 @@ class _Splashscreen2State extends State<Splashscreen2> {
         pages: [
           // First screen with illustrated doctors
           OnboardingPage(
-            logo: 'assets/logos/trans.png',
+            logo: 'assets/images/main.png',
             title: 'Holistic Health Tracker',
             subtitle: 'Storage your medical record',
             image: 'assets/images/doctor1.png',
@@ -33,7 +33,7 @@ class _Splashscreen2State extends State<Splashscreen2> {
 
           // Second screen with doctor photo
           OnboardingPage(
-            logo: 'assets/logos/trans.png',
+            logo: 'assets/images/main.png',
             title: 'Holistic Health Tracker',
             subtitle: 'Storage your medical record',
             image: 'assets/images/doctor2.png',
@@ -43,7 +43,7 @@ class _Splashscreen2State extends State<Splashscreen2> {
 
           // Third screen with healthcare professionals
           OnboardingPage(
-            logo: 'assets/logos/trans.png',
+            logo: 'assets/images/main.png',
             title: 'Holistic Health Tracker',
             subtitle: 'Caregiver Network Support',
             image: 'assets/images/doctor3.png',
