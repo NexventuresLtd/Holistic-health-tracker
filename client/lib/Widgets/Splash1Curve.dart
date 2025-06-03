@@ -39,6 +39,7 @@ class _Splash1curveState extends State<Splash1curve> {
               // Centered image
               Image.asset(
                 'assets/images/main.png',
+                height: 200, // Adjust the height as needed
               ),
             ],
           ),

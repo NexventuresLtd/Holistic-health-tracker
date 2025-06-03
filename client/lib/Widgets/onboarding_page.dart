@@ -39,7 +39,7 @@ class OnboardingPage extends StatelessWidget {
         children: [
           // Top section with overflowing background
           SizedBox(
-            height: 350,
+            height: 250,
             width: screenWidth,
             child: Stack(
               clipBehavior: Clip.none, // Allow overflow
@@ -52,7 +52,7 @@ class OnboardingPage extends StatelessWidget {
                   child: Container(
                     width: screenWidth *
                         1.5, // Make it 150% of the screen width to overflow
-                    height: 450,
+                    height: 400,
                     decoration: BoxDecoration(
                       color: backgroundColor
                           .withOpacity(1.0), // Use the provided backgroundColor
@@ -72,7 +72,7 @@ class OnboardingPage extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // Logo and title row
-                      Image.asset("assets/images/main.png", height: 100),
+                      Image.asset("assets/images/main.png", height: 150),
                       const SizedBox(height: 10),
 
                       // Subtitle
@@ -91,9 +91,8 @@ class OnboardingPage extends StatelessWidget {
                       ),
 
                       // Main image
-                      // const SizedBox(height: 10),
                       SizedBox(
-                        height: 400,
+                        height: 200,
                         width: screenWidth *
                             0.8, // Constrain width for better image appearance
                         child: Image.asset(
@@ -109,7 +108,7 @@ class OnboardingPage extends StatelessWidget {
           ),
 
           // Spacer to push content down
-          const SizedBox(height: 150),
+          const SizedBox(height: 220),
           if (!hasConnectionDiagram) const SizedBox(height: 150),
 
           // Description section
@@ -167,7 +166,7 @@ class OnboardingPage extends StatelessWidget {
             ),
 
           // Bottom spacer if no button
-          if (!hasGetStartedButton) const SizedBox(height: 40),
+          if (!hasGetStartedButton) const SizedBox(height: 100),
         ],
       ),
     );

@@ -271,12 +271,6 @@ class _RecordScreenState extends State<RecordScreen> {
         if (_selectedImage != null) {
           final bytes = await _selectedImage!.readAsBytes();
           imageBase64 = base64Encode(bytes);
-          if (imageBase64 == null) {
-            setState(() {
-              _isLoading = false;
-            });
-            return;
-          }
         }
 
         // Prepare document data

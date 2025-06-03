@@ -1,20 +1,20 @@
 // Light Theme Colors
 import 'package:flutter/material.dart';
 
-const primaryGreen = Color(0xFF499F97);
+const primaryGreen = Color.fromARGB(255, 124, 8, 8);
 const primaryBlue = Color(0xFF2260FF);
 const primaryBg = Color(0xFFF1F5FF);
-const secondaryGreen = Color(0xFF215D57);
+const secondaryGreen = Color.fromARGB(255, 109, 4, 4);
 const tertiaryGreen = primaryGreen;
 const lightCardColor = Colors.white;
 const lightTextColor = Color(0xFF091F44);
 const lightSecondaryTextColor = Color(0xFF342B33);
 
 // Dark Theme Colors
-const darkPrimaryGreen = Color(0xFF499F97); // Keep brand colors consistent
+const darkPrimaryGreen = primaryGreen; // Keep brand colors consistent
 const darkPrimaryBlue = Color(0xFF5B8CFF); // Lighter blue for dark theme
 const darkPrimaryBg = Color(0xFF121212);
-const darkSecondaryGreen = Color(0xFF67B0A9);
+const darkSecondaryGreen = secondaryGreen;
 const darkCardColor = Color(0xFF1E1E1E);
 const darkTextColor = Colors.white;
 const darkSecondaryTextColor = Color(0xFFB0B0B0);

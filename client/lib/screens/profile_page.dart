@@ -5,6 +5,7 @@ import 'package:client/screens/calendar_screen.dart';
 import 'package:client/screens/chat_list_screen.dart';
 import 'package:client/screens/record_screen.dart';
 import 'package:client/screens/userProgress.dart';
+import 'package:client/themes/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -484,8 +485,8 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
         title: const Image(
-          image: AssetImage("assets/logos/logo_name.png"),
-          height: 40, // Adjust height as needed
+          image: AssetImage("assets/images/main4.png"),
+          height: 300, // Adjust height as needed
         ),
         centerTitle: true,
         actions: const [
@@ -534,7 +535,7 @@ class ProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Image(
-                          image: AssetImage("assets/images/main.png"),
+                          image: AssetImage("assets/images/main5.png"),
                           width: 120,
                         ),
                         Expanded(
@@ -576,7 +577,8 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 50),
-                        SvgPicture.asset("assets/fluent_pen-20-filled.svg"),
+                        Icon(Icons.account_circle_rounded,
+                            color: primaryGreen, size: 40),
                       ],
                     ),
                   ),
@@ -691,10 +693,53 @@ class ProfilePage extends StatelessWidget {
                         builder: (context) => UserProgressScreen()),
                   );
                 },
-                child: ProfileCard(
-                  iconPath: "assets/mdi_account-child.svg",
-                  title: "${userName.split(' ')[0]}'s History",
-                  description: "Receive and save up. Points to receive gifts",
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/images/main5.png",
+                        width: 58,
+                        height: 58,
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${userName.split(' ')[0]}'s History",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "Receive and save up. Points to receive gifts",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Card(
