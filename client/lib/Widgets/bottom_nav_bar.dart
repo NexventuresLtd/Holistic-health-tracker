@@ -4,9 +4,16 @@ import '../screens/calendar_screen.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/record_screen.dart';
 import '../screens/chat_list_screen.dart';
-
+import 'package:client/globals.dart';
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key, required Null Function() onChatPressed, required Null Function() onAddPressed, required int currentIndex, required Null Function() onHomePressed, required Null Function() onCalendarPressed, required Null Function() onRecordPressed});
+  const BottomNavBar(
+      {super.key,
+      required Null Function() onChatPressed,
+      required Null Function() onAddPressed,
+      required int currentIndex,
+      required Null Function() onHomePressed,
+      required Null Function() onCalendarPressed,
+      required Null Function() onRecordPressed});
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -75,10 +82,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => MedicationManagementScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => MedicationManagementScreen()),
                 );
               },
-              backgroundColor: const Color(0xFF3F8585),
+              backgroundColor: primaryGreen,
               elevation: 8,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -96,7 +104,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       onTap: () => _onItemTapped(index),
       child: Icon(
         icon,
-        color: _selectedIndex == index ? const Color(0xFF3F8585) : const Color(0xFF3F8585),
+        color: _selectedIndex == index ? primaryGreen : primaryGreen,
         size: 33,
       ),
     );

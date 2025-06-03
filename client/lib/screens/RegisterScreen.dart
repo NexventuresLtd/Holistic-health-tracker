@@ -174,8 +174,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             top: 30,
             child: Center(
               child: Image.asset(
-                'assets/logos/trans.png',
-                width: 260,
+                'assets/images/main3.png',
+                width: 200,
               ),
             ),
           ),

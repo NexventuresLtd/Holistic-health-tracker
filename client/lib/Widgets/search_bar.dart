@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:client/globals.dart';
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({super.key});
 
@@ -31,7 +31,8 @@ class SearchBarWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                   child: Text(
                     'Search your records',
                     style: const TextStyle(
@@ -64,7 +65,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  
+
   // Predefined suggestions
   final List<String> _suggestions = [
     'My medicines',
@@ -72,10 +73,10 @@ class _SearchPageState extends State<SearchPage> {
     'Prescription',
     'Health checkup'
   ];
-  
+
   // Store filtered suggestions
   List<String> _filteredSuggestions = [];
-  
+
   // Store recent searches
   List<String> _recentSearches = [];
 
@@ -105,7 +106,8 @@ class _SearchPageState extends State<SearchPage> {
       } else {
         // Filter suggestions based on input
         _filteredSuggestions = _suggestions
-            .where((s) => s.toLowerCase().contains(_controller.text.toLowerCase()))
+            .where(
+                (s) => s.toLowerCase().contains(_controller.text.toLowerCase()))
             .toList();
       }
     });
@@ -131,7 +133,8 @@ class _SearchPageState extends State<SearchPage> {
   IconData _getIconForSearch(String searchTerm) {
     // Check if we have a specific icon for this search term
     for (var key in _categoryIcons.keys) {
-      if (searchTerm.toLowerCase().contains(key.toLowerCase()) && key != 'default') {
+      if (searchTerm.toLowerCase().contains(key.toLowerCase()) &&
+          key != 'default') {
         return _categoryIcons[key]!;
       }
     }
@@ -190,7 +193,8 @@ class _SearchPageState extends State<SearchPage> {
                         hintText: 'Search...',
                         hintStyle: TextStyle(color: Color(0xFF003F5F)),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 15),
                       ),
                       onSubmitted: (value) {
                         if (value.isNotEmpty) {
@@ -210,7 +214,8 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   // Search button
                   IconButton(
-                    icon: const Icon(Icons.arrow_forward, color: Color(0xFF3F8585)),
+                    icon: const Icon(Icons.arrow_forward,
+                        color: Color(0xFF3F8585)),
                     onPressed: () {
                       if (_controller.text.isNotEmpty) {
                         _addToRecentSearches(_controller.text);
@@ -221,9 +226,10 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Suggestions section
-            if (_filteredSuggestions.isNotEmpty && _controller.text.isNotEmpty) ...[
+            if (_filteredSuggestions.isNotEmpty &&
+                _controller.text.isNotEmpty) ...[
               const Text(
                 'Suggestions',
                 style: TextStyle(
@@ -242,7 +248,7 @@ class _SearchPageState extends State<SearchPage> {
                     return ListTile(
                       leading: Icon(
                         _getIconForSearch(suggestion),
-                        color: const Color(0xFF3F8585),
+                        color: primaryGreen,
                       ),
                       title: Text(suggestion),
                       onTap: () {
@@ -253,7 +259,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ],
-            
+
             // Recent searches section
             if (_recentSearches.isNotEmpty) ...[
               const Text(
@@ -274,7 +280,7 @@ class _SearchPageState extends State<SearchPage> {
                   return ListTile(
                     leading: Icon(
                       _getIconForSearch(recentSearch),
-                      color: const Color(0xFF3F8585),
+                      color: primaryGreen,
                     ),
                     title: Text(recentSearch),
                     trailing: IconButton(
@@ -293,7 +299,7 @@ class _SearchPageState extends State<SearchPage> {
                 },
               ),
             ],
-            
+
             // Show all suggestions if there's no search text and no recent searches
             if (_controller.text.isEmpty && _recentSearches.isEmpty) ...[
               const Text(
@@ -313,7 +319,7 @@ class _SearchPageState extends State<SearchPage> {
                     return ListTile(
                       leading: Icon(
                         _getIconForSearch(suggestion),
-                        color: const Color(0xFF3F8585),
+                        color: primaryGreen,
                       ),
                       title: Text(suggestion),
                       onTap: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:client/globals.dart';
 
 class CalendarStrip extends StatelessWidget {
   const CalendarStrip({super.key});
@@ -27,9 +28,7 @@ class CalendarStrip extends StatelessWidget {
             width: 50,
             margin: const EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
-              color: isSelected
-                  ? const Color.fromARGB(255, 26, 95, 88)
-                  : Colors.transparent,
+              color: isSelected ? primaryGreen : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(

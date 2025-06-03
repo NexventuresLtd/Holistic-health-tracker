@@ -9,6 +9,7 @@ import 'dashboard_screen.dart';
 import 'calendar_screen.dart';
 import 'record_screen.dart';
 import 'chat_list_screen.dart';
+import 'package:client/globals.dart';
 
 class HealthLogTrackerScreen extends StatefulWidget {
   const HealthLogTrackerScreen({super.key});
@@ -136,7 +137,8 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
         'timestamp': FieldValue.serverTimestamp(),
       };
 
-      final logsCollection = FirebaseFirestore.instance.collection('healthLogs');
+      final logsCollection =
+          FirebaseFirestore.instance.collection('healthLogs');
 
       if (_editingLogId != null) {
         await logsCollection.doc(_editingLogId).update(logData);
@@ -162,7 +164,10 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
 
   Future<void> _deleteHealthLog(String logId) async {
     try {
-      await FirebaseFirestore.instance.collection('healthLogs').doc(logId).delete();
+      await FirebaseFirestore.instance
+          .collection('healthLogs')
+          .doc(logId)
+          .delete();
       _showSnackBar('Health log deleted successfully');
       _resetForm();
     } catch (e) {
@@ -192,15 +197,16 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Color(0xFF2D6D66),
+              primary: primaryGreen,
               onPrimary: Colors.white,
               onSurface: Colors.black,
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFF2D6D66),
+                foregroundColor: primaryGreen,
               ),
-            ), dialogTheme: DialogThemeData(backgroundColor: Colors.white),
+            ),
+            dialogTheme: DialogThemeData(backgroundColor: Colors.white),
           ),
           child: child!,
         );
@@ -221,7 +227,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color(0xFF2D6D66),
+      // backgroundColor:  primaryGreen,
       body: SafeArea(
         child: Column(
           children: [
@@ -240,7 +246,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                       ),
                       child: const Icon(
                         Icons.arrow_back,
-                        color: Color(0xFF2D6D66),
+                        color: primaryGreen,
                         size: 22,
                       ),
                     ),
@@ -250,7 +256,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color:  Color(0xFF2D6D66),
+                      color: primaryGreen,
                     ),
                   ),
                   Row(
@@ -265,7 +271,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                           ),
                           child: Icon(
                             _showForm ? Icons.visibility_off : Icons.add,
-                            color: const Color(0xFF2D6D66),
+                            color: primaryGreen,
                             size: 22,
                           ),
                         ),
@@ -299,7 +305,8 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeInOut,
-                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 16),
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -318,28 +325,32 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.all(8),
                                             decoration: BoxDecoration(
-                                              color: const Color(0xFF2D6D66).withOpacity(0.1),
-                                              borderRadius: BorderRadius.circular(12),
+                                              color: primaryGreen,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
                                             child: const Icon(
                                               Icons.health_and_safety,
-                                              color: Color(0xFF2D6D66),
+                                              color: primaryGreen,
                                             ),
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            _editingLogId == null ? "Add New Health Log" : "Edit Health Log",
+                                            _editingLogId == null
+                                                ? "Add New Health Log"
+                                                : "Edit Health Log",
                                             style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFF2D6D66),
+                                              color: primaryGreen,
                                             ),
                                           ),
                                         ],
@@ -374,33 +385,38 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                         return GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              _symptoms[symptom] = !_symptoms[symptom]!;
+                                              _symptoms[symptom] =
+                                                  !_symptoms[symptom]!;
                                             });
                                           },
                                           child: AnimatedContainer(
-                                            duration: const Duration(milliseconds: 200),
+                                            duration: const Duration(
+                                                milliseconds: 200),
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 16,
                                               vertical: 8,
                                             ),
                                             decoration: BoxDecoration(
                                               color: _symptoms[symptom]!
-                                                  ? const Color(0xFF2D6D66)
+                                                  ? primaryGreen
                                                   : Colors.white,
-                                              borderRadius: BorderRadius.circular(30),
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
                                               border: Border.all(
                                                 color: _symptoms[symptom]!
-                                                    ? const Color(0xFF2D6D66)
+                                                    ? primaryGreen
                                                     : Colors.grey.shade300,
                                               ),
                                               boxShadow: _symptoms[symptom]!
                                                   ? [
-                                                BoxShadow(
-                                                  color: const Color(0xFF2D6D66).withOpacity(0.3),
-                                                  blurRadius: 8,
-                                                  offset: const Offset(0, 2),
-                                                )
-                                              ]
+                                                      BoxShadow(
+                                                        color: primaryGreen
+                                                            .withOpacity(0.3),
+                                                        blurRadius: 8,
+                                                        offset:
+                                                            const Offset(0, 2),
+                                                      )
+                                                    ]
                                                   : null,
                                             ),
                                             child: Row(
@@ -408,7 +424,9 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                               children: [
                                                 if (_symptoms[symptom]!)
                                                   Padding(
-                                                    padding: const EdgeInsets.only(right: 6),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 6),
                                                     child: Icon(
                                                       Icons.check_circle,
                                                       size: 16,
@@ -422,9 +440,10 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                                     color: _symptoms[symptom]!
                                                         ? Colors.white
                                                         : Colors.grey.shade800,
-                                                    fontWeight: _symptoms[symptom]!
-                                                        ? FontWeight.w600
-                                                        : FontWeight.normal,
+                                                    fontWeight:
+                                                        _symptoms[symptom]!
+                                                            ? FontWeight.w600
+                                                            : FontWeight.normal,
                                                   ),
                                                 ),
                                               ],
@@ -453,41 +472,49 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                             labelText: "Blood Pressure",
                                             hintText: "e.g., 120/80",
                                             prefixIcon: Icon(Icons.bloodtype,
-                                                color: Color(0xFF2D6D66).withOpacity(0.7)),
+                                                color: primaryGreen
+                                                    .withOpacity(0.7)),
                                             filled: true,
                                             fillColor: Colors.grey.shade50,
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide.none,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide.none,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide(
-                                                color: const Color(0xFF2D6D66),
+                                                color: primaryGreen,
                                                 width: 1.5,
                                               ),
                                             ),
                                             errorBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide(
                                                 color: Colors.redAccent,
                                                 width: 1.5,
                                               ),
                                             ),
-                                            contentPadding: const EdgeInsets.symmetric(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
                                               horizontal: 16,
                                               vertical: 16,
                                             ),
                                           ),
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter blood pressure';
                                             }
-                                            if (!RegExp(r'^\d{1,3}/\d{1,3}$').hasMatch(value)) {
+                                            if (!RegExp(r'^\d{1,3}/\d{1,3}$')
+                                                .hasMatch(value)) {
                                               return 'Enter valid BP (e.g., 120/80)';
                                             }
                                             return null;
@@ -502,39 +529,46 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                             labelText: "Heart Rate",
                                             hintText: "e.g., 72",
                                             prefixIcon: Icon(Icons.favorite,
-                                                color: Colors.redAccent.withOpacity(0.7)),
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.7)),
                                             filled: true,
                                             fillColor: Colors.grey.shade50,
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide.none,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide.none,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide(
-                                                color: const Color(0xFF2D6D66),
+                                                color: primaryGreen,
                                                 width: 1.5,
                                               ),
                                             ),
                                             errorBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(16),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
                                               borderSide: BorderSide(
                                                 color: Colors.redAccent,
                                                 width: 1.5,
                                               ),
                                             ),
-                                            contentPadding: const EdgeInsets.symmetric(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
                                               horizontal: 16,
                                               vertical: 16,
                                             ),
                                           ),
                                           keyboardType: TextInputType.number,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter heart rate';
                                             }
                                             if (int.tryParse(value) == null) {
@@ -563,7 +597,8 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                   TextFormField(
                                     controller: _notesController,
                                     decoration: InputDecoration(
-                                      hintText: "Any additional observations...",
+                                      hintText:
+                                          "Any additional observations...",
                                       filled: true,
                                       fillColor: Colors.grey.shade50,
                                       border: OutlineInputBorder(
@@ -577,7 +612,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(16),
                                         borderSide: BorderSide(
-                                          color: const Color(0xFF2D6D66),
+                                          color: primaryGreen,
                                           width: 1.5,
                                         ),
                                       ),
@@ -590,13 +625,17 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                     onTap: _isLoading ? null : _saveHealthLog,
                                     child: Container(
                                       width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(vertical: 16),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16),
                                       decoration: BoxDecoration(
-                                        color: _isLoading ? Colors.grey : const Color(0xFF2D6D66),
+                                        color: _isLoading
+                                            ? Colors.grey
+                                            : primaryGreen,
                                         borderRadius: BorderRadius.circular(16),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: const Color(0xFF2D6D66).withOpacity(0.3),
+                                            color:
+                                                primaryGreen.withOpacity(0.3),
                                             blurRadius: 12,
                                             offset: const Offset(0, 5),
                                           ),
@@ -605,21 +644,24 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                       child: Center(
                                         child: _isLoading
                                             ? const SizedBox(
-                                          height: 24,
-                                          width: 24,
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                            strokeWidth: 2,
-                                          ),
-                                        )
+                                                height: 24,
+                                                width: 24,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                  strokeWidth: 2,
+                                                ),
+                                              )
                                             : Text(
-                                          _editingLogId == null ? "Save Log" : "Update Log",
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                                _editingLogId == null
+                                                    ? "Save Log"
+                                                    : "Update Log",
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -637,7 +679,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2D6D66),
+                                  color: primaryGreen,
                                 ),
                               ),
                               Row(
@@ -649,7 +691,8 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           color: Colors.red.shade50,
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                         ),
                                         child: Icon(
                                           Icons.close,
@@ -668,12 +711,12 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                       ),
                                       decoration: BoxDecoration(
                                         color: _selectedDate != null
-                                            ? const Color(0xFF2D6D66).withOpacity(0.1)
+                                            ? primaryGreen
                                             : Colors.grey.shade100,
                                         borderRadius: BorderRadius.circular(30),
                                         border: Border.all(
                                           color: _selectedDate != null
-                                              ? const Color(0xFF2D6D66).withOpacity(0.3)
+                                              ? primaryGreen.withOpacity(0.3)
                                               : Colors.grey.shade300,
                                           width: 1,
                                         ),
@@ -684,18 +727,19 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                             Icons.calendar_today,
                                             size: 16,
                                             color: _selectedDate != null
-                                                ? const Color(0xFF2D6D66)
+                                                ? primaryGreen
                                                 : Colors.grey.shade700,
                                           ),
                                           const SizedBox(width: 6),
                                           Text(
                                             _selectedDate == null
                                                 ? "Filter"
-                                                : DateFormat('MMM d, y').format(_selectedDate!),
+                                                : DateFormat('MMM d, y')
+                                                    .format(_selectedDate!),
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: _selectedDate != null
-                                                  ? const Color(0xFF2D6D66)
+                                                  ? primaryGreen
                                                   : Colors.grey.shade700,
                                               fontWeight: _selectedDate != null
                                                   ? FontWeight.w600
@@ -713,12 +757,14 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                         ),
                         BlocBuilder<AppCubit, AppState>(
                           builder: (context, state) {
-                            final userInfo = state is AppAuthenticated ? state.user : null;
+                            final userInfo =
+                                state is AppAuthenticated ? state.user : null;
 
                             if (userInfo == null) {
                               return _buildEmptyState(
                                 icon: Icons.lock,
-                                message: "Please log in to view your health logs",
+                                message:
+                                    "Please log in to view your health logs",
                               );
                             }
 
@@ -728,12 +774,13 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                   .where('patientId', isEqualTo: userInfo.id)
                                   .snapshots(),
                               builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
                                   return const Center(
                                     child: Padding(
                                       padding: EdgeInsets.all(40),
                                       child: CircularProgressIndicator(
-                                        color: Color(0xFF2D6D66),
+                                        color: primaryGreen,
                                       ),
                                     ),
                                   );
@@ -742,11 +789,13 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                 if (snapshot.hasError) {
                                   return _buildEmptyState(
                                     icon: Icons.error_outline,
-                                    message: "Error loading health logs: ${snapshot.error}",
+                                    message:
+                                        "Error loading health logs: ${snapshot.error}",
                                   );
                                 }
 
-                                List<QueryDocumentSnapshot> logs = snapshot.data?.docs ?? [];
+                                List<QueryDocumentSnapshot> logs =
+                                    snapshot.data?.docs ?? [];
 
                                 if (_selectedDate != null) {
                                   final startDate = DateTime(
@@ -754,19 +803,26 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                     _selectedDate!.month,
                                     _selectedDate!.day,
                                   );
-                                  final endDate = startDate.add(const Duration(days: 1));
+                                  final endDate =
+                                      startDate.add(const Duration(days: 1));
 
                                   logs = logs.where((log) {
-                                    final timestamp = log['timestamp'] as Timestamp?;
+                                    final timestamp =
+                                        log['timestamp'] as Timestamp?;
                                     if (timestamp == null) return false;
                                     final date = timestamp.toDate();
-                                    return date.isAfter(startDate) && date.isBefore(endDate);
+                                    return date.isAfter(startDate) &&
+                                        date.isBefore(endDate);
                                   }).toList();
                                 }
 
                                 logs.sort((a, b) {
-                                  final aTime = (a['timestamp'] as Timestamp?)?.toDate() ?? DateTime(0);
-                                  final bTime = (b['timestamp'] as Timestamp?)?.toDate() ?? DateTime(0);
+                                  final aTime = (a['timestamp'] as Timestamp?)
+                                          ?.toDate() ??
+                                      DateTime(0);
+                                  final bTime = (b['timestamp'] as Timestamp?)
+                                          ?.toDate() ??
+                                      DateTime(0);
                                   return bTime.compareTo(aTime);
                                 });
 
@@ -783,22 +839,34 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: logs.length,
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
                                   itemBuilder: (context, index) {
                                     final log = logs[index];
-                                    final data = log.data() as Map<String, dynamic>;
+                                    final data =
+                                        log.data() as Map<String, dynamic>;
 
-                                    final timestamp = data['timestamp'] as Timestamp?;
-                                    final date = timestamp?.toDate() ?? DateTime.now();
-                                    final formattedDate = DateFormat('MMM d, y • h:mm a').format(date);
+                                    final timestamp =
+                                        data['timestamp'] as Timestamp?;
+                                    final date =
+                                        timestamp?.toDate() ?? DateTime.now();
+                                    final formattedDate =
+                                        DateFormat('MMM d, y • h:mm a')
+                                            .format(date);
 
-                                    final symptoms = (data['symptoms'] as List<dynamic>?)
-                                        ?.map((s) => s.toString())
-                                        .toList() ?? [];
+                                    final symptoms =
+                                        (data['symptoms'] as List<dynamic>?)
+                                                ?.map((s) => s.toString())
+                                                .toList() ??
+                                            [];
 
-                                    final vitals = data['vitals'] as Map<String, dynamic>? ?? {};
-                                    final bloodPressure = vitals['bloodPressure']?.toString();
-                                    final heartRate = vitals['heartRate']?.toString();
+                                    final vitals = data['vitals']
+                                            as Map<String, dynamic>? ??
+                                        {};
+                                    final bloodPressure =
+                                        vitals['bloodPressure']?.toString();
+                                    final heartRate =
+                                        vitals['heartRate']?.toString();
 
                                     return Container(
                                       margin: const EdgeInsets.only(bottom: 16),
@@ -807,7 +875,8 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.05),
+                                            color:
+                                                Colors.black.withOpacity(0.05),
                                             blurRadius: 10,
                                             offset: const Offset(0, 5),
                                           ),
@@ -816,39 +885,58 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           onTap: () => _loadLogForEdit(log),
                                           child: Padding(
                                             padding: const EdgeInsets.all(16),
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Text(
                                                       formattedDate,
                                                       style: const TextStyle(
                                                         fontSize: 14,
                                                         color: Colors.grey,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                     PopupMenuButton(
-                                                      icon: const Icon(Icons.more_vert, size: 20),
-                                                      itemBuilder: (context) => [
+                                                      icon: const Icon(
+                                                          Icons.more_vert,
+                                                          size: 20),
+                                                      itemBuilder: (context) =>
+                                                          [
                                                         PopupMenuItem(
-                                                          child: const Text('Edit'),
-                                                          onTap: () => Future.delayed(
+                                                          child: const Text(
+                                                              'Edit'),
+                                                          onTap: () =>
+                                                              Future.delayed(
                                                             Duration.zero,
-                                                                () => _loadLogForEdit(log),
+                                                            () =>
+                                                                _loadLogForEdit(
+                                                                    log),
                                                           ),
                                                         ),
                                                         PopupMenuItem(
-                                                          child: const Text('Delete', style: TextStyle(color: Colors.red)),
-                                                          onTap: () => Future.delayed(
+                                                          child: const Text(
+                                                              'Delete',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red)),
+                                                          onTap: () =>
+                                                              Future.delayed(
                                                             Duration.zero,
-                                                                () => _deleteHealthLog(log.id),
+                                                            () =>
+                                                                _deleteHealthLog(
+                                                                    log.id),
                                                           ),
                                                         ),
                                                       ],
@@ -860,21 +948,28 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                                   Wrap(
                                                     spacing: 8,
                                                     runSpacing: 8,
-                                                    children: symptoms.map((symptom) {
+                                                    children:
+                                                        symptoms.map((symptom) {
                                                       return Container(
-                                                        padding: const EdgeInsets.symmetric(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
                                                           horizontal: 12,
                                                           vertical: 6,
                                                         ),
-                                                        decoration: BoxDecoration(
-                                                          color: const Color(0xFF2D6D66).withOpacity(0.1),
-                                                          borderRadius: BorderRadius.circular(30),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: primaryGreen,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
                                                         ),
                                                         child: Text(
                                                           symptom,
-                                                          style: const TextStyle(
+                                                          style:
+                                                              const TextStyle(
                                                             fontSize: 13,
-                                                            color: Color(0xFF2D6D66),
+                                                            color: primaryGreen,
                                                           ),
                                                         ),
                                                       );
@@ -883,31 +978,42 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
                                                 const SizedBox(height: 12),
                                                 Row(
                                                   children: [
-                                                    if (bloodPressure != null && bloodPressure.isNotEmpty)
+                                                    if (bloodPressure != null &&
+                                                        bloodPressure
+                                                            .isNotEmpty)
                                                       _buildVitalItem(
                                                         icon: Icons.bloodtype,
                                                         value: bloodPressure,
                                                         label: 'BP',
                                                       ),
-                                                    if (heartRate != null && heartRate.isNotEmpty)
+                                                    if (heartRate != null &&
+                                                        heartRate.isNotEmpty)
                                                       Padding(
-                                                        padding: const EdgeInsets.only(left: 16),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 16),
                                                         child: _buildVitalItem(
                                                           icon: Icons.favorite,
                                                           value: heartRate,
                                                           label: 'HR',
-                                                          iconColor: Colors.redAccent,
+                                                          iconColor:
+                                                              Colors.redAccent,
                                                         ),
                                                       ),
                                                   ],
                                                 ),
-                                                if (data['notes'] != null && (data['notes'] as String).isNotEmpty)
+                                                if (data['notes'] != null &&
+                                                    (data['notes'] as String)
+                                                        .isNotEmpty)
                                                   Padding(
-                                                    padding: const EdgeInsets.only(top: 12),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 12),
                                                     child: Text(
                                                       data['notes'] as String,
                                                       maxLines: 2,
-                                                      overflow: TextOverflow.ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         fontSize: 14,
                                                         color: Colors.grey,
@@ -964,7 +1070,8 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
         onAddPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const HealthLogTrackerScreen()),
+            MaterialPageRoute(
+                builder: (context) => const HealthLogTrackerScreen()),
           );
         },
       ),
@@ -975,7 +1082,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
     required IconData icon,
     required String value,
     required String label,
-    Color iconColor = const Color(0xFF2D6D66),
+    Color iconColor = primaryGreen,
   }) {
     return Row(
       children: [
@@ -1006,7 +1113,7 @@ class _HealthLogTrackerScreenState extends State<HealthLogTrackerScreen> {
           Icon(
             icon,
             size: 48,
-            color: const Color(0xFF2D6D66).withOpacity(0.3),
+            color: primaryGreen.withOpacity(0.3),
           ),
           const SizedBox(height: 16),
           Text(

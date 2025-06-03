@@ -41,47 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCgPyIg6OLATw7T0-Q2kn7ySNr6qT8T1m4',
-    appId: '1:559511865236:web:f90245e9601f4e0a6e3181',
-    messagingSenderId: '559511865236',
-    projectId: 'famcare-1d4c9',
-    authDomain: 'famcare-1d4c9.firebaseapp.com',
-    storageBucket: 'famcare-1d4c9.firebasestorage.app',
+    apiKey: 'AIzaSyCrsqKv9fX0wZrmJjslwfLwkPm8pX0GZ2w',
+    appId: '1:665235690598:web:8fe6e93468722da04d09a7',
+    messagingSenderId: '665235690598',
+    projectId: 'holistic-health-tracker-e9121',
+    authDomain: 'holistic-health-tracker-e9121.firebaseapp.com',
+    storageBucket: 'holistic-health-tracker-e9121.firebasestorage.app',
+    measurementId: 'G-0V37JJRP82',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB-CON-cvhW8w4wYe9tLV_s0UG4-ChW0nY',
-    appId: '1:559511865236:android:76ad37a0688eae376e3181',
-    messagingSenderId: '559511865236',
-    projectId: 'famcare-1d4c9',
-    storageBucket: 'famcare-1d4c9.firebasestorage.app',
+    apiKey: 'AIzaSyDNvkPipWNI0aOPFFfOyxmB132NsqYRqCY',
+    appId: '1:665235690598:android:5fec9ee0e304519f4d09a7',
+    messagingSenderId: '665235690598',
+    projectId: 'holistic-health-tracker-e9121',
+    storageBucket: 'holistic-health-tracker-e9121.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBVBXAstV20A3F_RCzS-NJn2Tmoslq9z-0',
-    appId: '1:559511865236:ios:df72c685c534fb7e6e3181',
-    messagingSenderId: '559511865236',
-    projectId: 'famcare-1d4c9',
-    storageBucket: 'famcare-1d4c9.firebasestorage.app',
+    apiKey: 'AIzaSyALNKhoPDpP-JKt2Q-BDktoIKhVu8jxOLQ',
+    appId: '1:665235690598:ios:6ee83dd45838772d4d09a7',
+    messagingSenderId: '665235690598',
+    projectId: 'holistic-health-tracker-e9121',
+    storageBucket: 'holistic-health-tracker-e9121.firebasestorage.app',
     iosBundleId: 'com.example.client',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBVBXAstV20A3F_RCzS-NJn2Tmoslq9z-0',
-    appId: '1:559511865236:ios:df72c685c534fb7e6e3181',
-    messagingSenderId: '559511865236',
-    projectId: 'famcare-1d4c9',
-    storageBucket: 'famcare-1d4c9.firebasestorage.app',
+    apiKey: 'AIzaSyALNKhoPDpP-JKt2Q-BDktoIKhVu8jxOLQ',
+    appId: '1:665235690598:ios:6ee83dd45838772d4d09a7',
+    messagingSenderId: '665235690598',
+    projectId: 'holistic-health-tracker-e9121',
+    storageBucket: 'holistic-health-tracker-e9121.firebasestorage.app',
     iosBundleId: 'com.example.client',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCgPyIg6OLATw7T0-Q2kn7ySNr6qT8T1m4',
-    appId: '1:559511865236:web:9bfc07f678da9d216e3181',
-    messagingSenderId: '559511865236',
-    projectId: 'famcare-1d4c9',
-    authDomain: 'famcare-1d4c9.firebaseapp.com',
-    storageBucket: 'famcare-1d4c9.firebasestorage.app',
+    apiKey: 'AIzaSyCrsqKv9fX0wZrmJjslwfLwkPm8pX0GZ2w',
+    appId: '1:665235690598:web:2a790802d981783a4d09a7',
+    messagingSenderId: '665235690598',
+    projectId: 'holistic-health-tracker-e9121',
+    authDomain: 'holistic-health-tracker-e9121.firebaseapp.com',
+    storageBucket: 'holistic-health-tracker-e9121.firebasestorage.app',
+    measurementId: 'G-8TTRMHEWTV',
   );
 
 }

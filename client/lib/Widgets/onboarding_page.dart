@@ -72,7 +72,7 @@ class OnboardingPage extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // Logo and title row
-                      Image.asset("assets/logos/logo_white.png", height: 100),
+                      Image.asset("assets/images/main.png", height: 100),
                       const SizedBox(height: 10),
 
                       // Subtitle

@@ -40,7 +40,7 @@ class AuthHeader extends StatelessWidget {
           Positioned(
             top: 30,
             child: Image.asset(
-              'assets/logos/trans.png',
+              'assets/images/main.png',
               width: 260,
             ),
           ),

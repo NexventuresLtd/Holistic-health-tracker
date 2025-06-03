@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../providers/state_provider.dart';
 import 'package:client/globals.dart';
+
 class DashboardHeader extends StatelessWidget {
   final String userName;
   final String? userEmail;
@@ -101,7 +102,7 @@ class DashboardHeader extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: primaryGreen,
                       fontFamily: 'Poppins',
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -111,7 +112,7 @@ class DashboardHeader extends StatelessWidget {
                       userEmail!,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Theme.of(context).textTheme.bodyLarge!.color,
+                        color: primaryGreen,
                         fontFamily: 'Poppins',
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -127,7 +128,7 @@ class DashboardHeader extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: primaryGreen,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
@@ -143,7 +144,7 @@ class DashboardHeader extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.logout,
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Colors.white,
                   size: 26,
                 ),
               ),
